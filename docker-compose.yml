@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    container_name: api-app
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env
+    depends_on:
+      - redis
+      - mongo
+    environment:
+      - REDIS_HOST=redis
+      - LOG_LEVEL=debug
+    command: uvicorn app.main:app --reload --port 8000 --host 0.0.0.0
+    volumes:
+      - ./logs/api/:/code/logs/
+      - ./app/:/code/app/
+
+  redis:
+    image: redis:alpine
+    container_name: api-redis
+    expose:
+      - 6379
+
+  mongo:
+    image: mongo
+    container_name: api-mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=misfit
+      - MONGO_INITDB_ROOT_PASSWORD=3210
+    ports:
+      - 27018:27017
