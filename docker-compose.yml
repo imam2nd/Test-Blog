@@ -32,4 +32,4 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=misfit
       - MONGO_INITDB_ROOT_PASSWORD=3210
     ports:
-      - 27018:27017
+      - 27019:27017
